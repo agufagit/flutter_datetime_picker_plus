@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'i18n_model.dart';
 
 /// Outputs year as four digits
@@ -220,50 +222,48 @@ const String am = 'am';
 const String z = 'z';
 const String Z = 'Z';
 
-String formatDate(DateTime date, List<String> formats, LocaleType locale) {
+String formatDate(DateTime date, List<String> formats, Locale locale) {
   if (formats.first == ymdw) {
     final now = DateTime.now();
-    if (date.year == now.year &&
-        date.month == now.month &&
-        date.day == now.day) {
+    if (date.year == now.year && date.month == now.month && date.day == now.day) {
       //today
       return i18nObjInLocale(locale)['today'] as String;
     } else if (date.year == now.year) {
-      if (locale == LocaleType.zh) {
+      if (locale.languageCode == LocaleType.zh.name) {
         return formatDate(date, [mm, '月', dd, '日 ', D], locale);
-      } else if (locale == LocaleType.nl) {
+      } else if (locale.languageCode == LocaleType.nl.name) {
         return formatDate(date, [D, ' ', dd, ' ', M], locale);
-      } else if (locale == LocaleType.ko) {
+      } else if (locale.languageCode == LocaleType.ko.name) {
         return formatDate(date, [mm, '월', dd, '일 ', D], locale);
-      } else if (locale == LocaleType.de) {
+      } else if (locale.languageCode == LocaleType.de.name) {
         return formatDate(date, [D, ', ', dd, '. ', M], locale);
-      } else if (locale == LocaleType.id) {
+      } else if (locale.languageCode == LocaleType.id.name) {
         return formatDate(date, [D, ', ', dd, ' ', M], locale);
-      } else if (locale == LocaleType.jp) {
+      } else if (locale.languageCode == LocaleType.jp.name) {
         return formatDate(date, [mm, '月', dd, '日', D], locale);
-      } else if (locale == LocaleType.si) {
+      } else if (locale.languageCode == LocaleType.si.name) {
         return formatDate(date, [D, ', ', dd, '. ', M, '.'], locale);
-      } else if (locale == LocaleType.gr) {
+      } else if (locale.languageCode == LocaleType.gr.name) {
         return formatDate(date, [D, ' ', dd, ' ', M], locale);
       } else {
         return formatDate(date, [D, ' ', M, ' ', dd], locale);
       }
     } else {
-      if (locale == LocaleType.zh) {
+      if (locale.languageCode == LocaleType.zh.name) {
         return formatDate(date, [yyyy, '年', mm, '月', dd, '日 ', D], locale);
-      } else if (locale == LocaleType.nl) {
+      } else if (locale.languageCode == LocaleType.nl.name) {
         return formatDate(date, [D, ' ', dd, ' ', M, ' ', yyyy], locale);
-      } else if (locale == LocaleType.ko) {
+      } else if (locale.languageCode == LocaleType.ko.name) {
         return formatDate(date, [yyyy, '년', mm, '월', dd, '일 ', D], locale);
-      } else if (locale == LocaleType.de) {
+      } else if (locale.languageCode == LocaleType.de.name) {
         return formatDate(date, [D, ', ', dd, '. ', M, ' ', yyyy], locale);
-      } else if (locale == LocaleType.id) {
+      } else if (locale.languageCode == LocaleType.id.name) {
         return formatDate(date, [D, ', ', dd, ' ', M, ' ', yyyy], locale);
-      } else if (locale == LocaleType.jp) {
+      } else if (locale.languageCode == LocaleType.jp.name) {
         return formatDate(date, [yyyy, '年', mm, '月', dd, '日', D], locale);
-      } else if (locale == LocaleType.si) {
+      } else if (locale.languageCode == LocaleType.si.name) {
         return formatDate(date, [D, ', ', dd, '. ', M, '. ', yyyy], locale);
-      } else if (locale == LocaleType.gr) {
+      } else if (locale.languageCode == LocaleType.gr.name) {
         return formatDate(date, [D, ' ', dd, ' ', M, ' ', yyyy], locale);
       } else {
         return formatDate(date, [D, ' ', M, ' ', dd, ', ', yyyy], locale);
@@ -283,12 +283,10 @@ String formatDate(DateTime date, List<String> formats, LocaleType locale) {
     } else if (format == m) {
       sb.write(date.month);
     } else if (format == MM) {
-      final monthLong =
-          i18nObjInLocaleLookup(locale, 'monthLong', date.month - 1);
+      final monthLong = i18nObjInLocaleLookup(locale, 'monthLong', date.month - 1);
       sb.write(monthLong);
     } else if (format == M) {
-      final monthShort =
-          i18nObjInLocaleLookup(locale, 'monthShort', date.month - 1);
+      final monthShort = i18nObjInLocaleLookup(locale, 'monthShort', date.month - 1);
       sb.write(monthShort);
     } else if (format == dd) {
       sb.write(digits(date.day, 2));
@@ -315,9 +313,7 @@ String formatDate(DateTime date, List<String> formats, LocaleType locale) {
     } else if (format == h) {
       sb.write(date.hour % 12);
     } else if (format == am) {
-      sb.write(date.hour < 12
-          ? i18nObjInLocale(locale)['am']
-          : i18nObjInLocale(locale)['pm']);
+      sb.write(date.hour < 12 ? i18nObjInLocale(locale)['am'] : i18nObjInLocale(locale)['pm']);
     } else if (format == nn) {
       sb.write(digits(date.minute, 2));
     } else if (format == n) {
@@ -362,5 +358,4 @@ String digits(int value, int length) {
   return '$value'.padLeft(length, "0");
 }
 
-int dayInYear(DateTime date) =>
-    date.difference(new DateTime(date.year, 1, 1)).inDays;
+int dayInYear(DateTime date) => date.difference(new DateTime(date.year, 1, 1)).inDays;
